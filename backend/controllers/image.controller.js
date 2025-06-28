@@ -1,4 +1,5 @@
 import {uploadFile} from "../services/upload.services.js";
+import {resizeService} from "../services/resize.services.js";
 
 const uploadImage = (req, res, next) => {
     try {
@@ -13,4 +14,18 @@ const uploadImage = (req, res, next) => {
     }
 }
 
-export {uploadImage}
+const resizeImage = async (req, res, next) => {
+    try {
+        const {imageName, width, height, fit} = req.body;
+        const buffer = await resizeService(
+            {imageName, width, height, fit}
+        );
+        const outputFormat = imageName.split('.')[1];
+        res.set('Content-Type', `image/${outputFormat}`);
+        res.send(buffer);
+    } catch (err) {
+        next(err)
+    }
+}
+
+export {uploadImage, resizeImage}

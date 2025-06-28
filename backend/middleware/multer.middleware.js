@@ -2,6 +2,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import {fileURLToPath} from "url";
+import {allowedImageExtensions} from "../utils/constant.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,7 +18,6 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 
-const allowedImageExtensions = /jpeg|jpg|png|svg|webp/;
 
 // Configure multer for file storage
 const storage = multer.diskStorage({
@@ -35,7 +35,7 @@ const storage = multer.diskStorage({
 // File filter for validation
 const fileFilter = (req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
-    if (allowedImageExtensions.test(ext)) {
+    if (allowedImageExtensions.includes(ext)) {
         cb(null, true);
     } else {
         cb(new Error('Unsupported file type'), false);
