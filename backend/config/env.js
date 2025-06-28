@@ -16,4 +16,8 @@ config({ path: envFile });
 // Optional debug log
 console.log(__filename , __dirname);
 
-export const { PORT, NODE_ENV, PATH } = process.env;
+export const { PORT,
+    NODE_ENV,
+    BASE_URL,
+    PATH
+} = process.env;

@@ -1,5 +1,5 @@
 import {uploadFile} from "../services/upload.services.js";
-import {resizeService} from "../services/resize.services.js";
+import {compressService, resizeService} from "../services/image.services.js";
 
 const uploadImage = (req, res, next) => {
     try {
@@ -28,4 +28,12 @@ const resizeImage = async (req, res, next) => {
     }
 }
 
-export {uploadImage, resizeImage}
+const compressImage = async (req, res, next) => {
+    try {
+        return await compressService(req, res);
+    } catch (err) {
+        next(err)
+    }
+}
+
+export {uploadImage, resizeImage, compressImage}
