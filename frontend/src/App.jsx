@@ -1,5 +1,5 @@
 import {Route, Routes} from "react-router";
-import Homepage from "./pages/Homepage.jsx";
+import Homepage from "./pages/Home/Homepage.jsx";
 import {ThemeProvider} from "@mui/material/styles";
 import theme from "./utils/theme.js"
 

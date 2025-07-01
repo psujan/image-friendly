@@ -11,9 +11,9 @@ export const theme = createTheme({
             lineHeight: "100%",
         },
         primary: {
-            light: "#1e7e51",
-            main: "#1e7e51",
-            dark: "#1e7e51",
+            light: "#124e56",
+            main: "#124e56",
+            dark: "#124e56",
             contrastText: "#fff",
         },
         secondary: {

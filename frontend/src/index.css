@@ -2,6 +2,20 @@
 
 body {
     font-family: 'Inter', sans-serif !important;
+    margin:0 !important;
+    padding: 0 !important;
+
+}
+
+:root {
+  --primary-color: #124e56;
+  --primary-light-10: #2f6870;
+  --primary-light-20: #4b828a;
+  --primary-light-30: #689ca4;
+  --primary-light-40: #85b6bd;
+  --primary-light-50: #a2d0d7;
+  --primary-light-60: #bfebf1;
+  --primary-light-70: #dbf9fb;
 }
 
 .title-text-bold {
