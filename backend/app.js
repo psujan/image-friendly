@@ -3,10 +3,14 @@ import routes from "./routes/index.router.js"
 import cookieParser from "cookie-parser"
 import errorMiddleware from "./middleware/error.middleware.js";
 import path from "path";
+import cors from 'cors';
 
 
 
 const app = express();
+
+// Enable CORS for all routes and origins
+app.use(cors());
 
 //built in middlewares
 app.use(express.json());
