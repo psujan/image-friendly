@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 import {
   Box,
   Container,
@@ -72,16 +73,18 @@ export default function PageLayout({ children }) {
           }}
         >
           <Toolbar sx={{ justifyContent: "space-between" }}>
-            <Typography
-              variant="h6"
-              color="primary"
-              sx={{
-                fontWeight: "bold",
-                letterSpacing: "0.5px",
-              }}
-            >
-              IMG Friendly
-            </Typography>
+            <Link to="/">
+              <Typography
+                variant="h6"
+                color="primary"
+                sx={{
+                  fontWeight: "bold",
+                  letterSpacing: "0.5px",
+                }}
+              >
+                IMG Friendly
+              </Typography>
+            </Link>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <Avatar
