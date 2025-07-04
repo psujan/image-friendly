@@ -13,8 +13,6 @@ const envFile = path.join(__dirname, `../.env.${process.env.NODE_ENV || "develop
 
 config({ path: envFile });
 
-// Optional debug log
-console.log(__filename , __dirname);
 
 export const { PORT,
     NODE_ENV,

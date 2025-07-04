@@ -15,24 +15,28 @@ import api from "../../../utils/api";
 export default function CompressForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [width, setWidth] = useState();
-  const [height, setHeight] = useState();
+  const [width, setWidth] = useState("");
+  const [height, setHeight] = useState("");
   const [preset, setPreset] = useState("medium");
   const [format, setFormat] = useState("");
+  const [downloadUrl, setDownloadUrl] = useState("");
 
   const handleSubmit = () => {
-    console.log("here")
+    console.log("here");
     setIsSubmitting(true);
     api
       .post("/api/v1/image/compress", {
-        width,
-        height,
+        width: width,
+        height: height,
         format,
         preset,
-        imageName: "image-1750999769977-591962080.png",
+        imageName: "test-img.png",
       })
       .then((res) => {
         console.log(res);
+        if (res.data.success) {
+          setDownloadUrl(res.data.data.downloadUrl);
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -98,6 +102,7 @@ export default function CompressForm() {
             variant="outlined"
             className="base-input"
             type="number"
+            value={width}
             onChange={(e) => setWidth(e.target.value)}
           />
         </Grid>
@@ -110,10 +115,11 @@ export default function CompressForm() {
             variant="outlined"
             className="base-input"
             type="number"
+            value={height}
             onChange={(e) => setHeight(e.target.value)}
           />
         </Grid>
-        <Grid size={{ md: 12 }} sx={{ mt: 1 }}>
+        <Grid size={{ md: downloadUrl ? 6 : 12 }} sx={{ mt: 1 }}>
           <Button
             variant="contained"
             sx={{ width: "100%" }}
@@ -123,6 +129,20 @@ export default function CompressForm() {
             Compress
           </Button>
         </Grid>
+        {downloadUrl ? (
+          <Grid size={{ md: downloadUrl ? 6 : 12 }} sx={{ mt: 1 }}>
+            <Button
+              variant="outlined"
+              sx={{ width: "100%" }}
+              size="large"
+              onClick={() => handleSubmit()}
+            >
+              Download
+            </Button>
+          </Grid>
+        ) : (
+          ""
+        )}
       </Grid>
     </Box>
   );

@@ -1,9 +1,11 @@
 import React from "react";
 import PageLayout from "../../components/PageLayout";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, IconButton } from "@mui/material";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { styled } from "@mui/material/styles";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import CompressForm from "./partials/CompressForm";
+import theme from "../../utils/theme";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -77,6 +79,50 @@ export default function CompressPage() {
                 multiple
               />
             </Button>
+          </Box>
+          <Box
+            sx={{
+              mt: 2,
+              display: "flex",
+              alignItems: "center",
+              padding: "4px",
+              border: "1px solid var(--border-color)",
+              justifyContent: "space-between",
+              width: "80%",
+              borderRadius: "6px",
+            }}
+          >
+            <Box sx={{ display: "flex" }}>
+              <img
+                src="https://cdn.pixabay.com/photo/2023/12/13/22/29/young-woman-8447841_1280.jpg"
+                alt=""
+                style={{
+                  borderRadius: "8px",
+                  width: "80px",
+                  height: "60px",
+                  objectFit: "cover",
+                }}
+              />
+              <Box sx={{ marginLeft: "10px" }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
+                  My Image Name.png
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{ fontWeight: 400, color: "#666" }}
+                >
+                  2.7 Mb
+                </Typography>
+              </Box>
+            </Box>
+            <Box>
+              <IconButton
+                aria-label="delete"
+                sx={{ color: theme.palette.error.main }}
+              >
+                <DeleteOutlinedIcon />
+              </IconButton>
+            </Box>
           </Box>
         </Box>
         <Box sx={{ flex: 1 }}>
