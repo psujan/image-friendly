@@ -1,4 +1,4 @@
-const allowedImageExtensions =  ['jpeg','jpg','png','svg','webp']
+const allowedImageExtensions =  ['jpeg','jpg','png','avif','tiff','webp']
 
 // Compression presets
 const compressionPresets = {
