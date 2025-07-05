@@ -34,7 +34,6 @@ export default function CompressPage() {
   };
 
   const handleFileUpload = (e) => {
-    console.log(e);
     const file = e.target.files?.[0];
     if (!file) return;
 
