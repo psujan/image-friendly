@@ -1,5 +1,6 @@
 import { uploadFile } from "../services/upload.services.js";
 import { compressService, resizeService } from "../services/image.services.js";
+import response from "../utils/response.js";
 
 const mimeTypes = {
   jpeg: "image/jpeg",
@@ -13,10 +14,7 @@ const mimeTypes = {
 const uploadImage = (req, res, next) => {
   try {
     const fileInfo = uploadFile(req.file);
-    res.status(200).json({
-      message: "File uploaded successfully",
-      file: fileInfo,
-    });
+    return response.success(res, fileInfo, "File Uploaded Successfully");
   } catch (err) {
     console.error(err);
     next(err);

@@ -1,46 +1,42 @@
 import multer from "multer";
+import apiResponse from "../utils/response.js";
 
 const errorMiddleware = (err, req, res, next) => {
-    try {
-        let error = {...err}
-        error.message = err.message;
-        console.error('error captured', error);
+  try {
+    let error = { ...err };
+    error.message = err.message;
+    console.error("error captured", error);
 
-        // Mongoose bad object id
-        if (err.name === 'CastError') {
-            const message = "Resource Not Found"
-            error.message = new Error(message)
-            error.statusCode = 404
-        }
-
-        // Mongoose duplicate key
-        if (err.code === 11000) {
-            const message = 'Duplicate field value entered';
-            error = new Error(message);
-            error.statusCode = 400;
-        }
-
-        // Mongoose validation error
-        if (err.name === 'ValidationError') {
-            const message = Object.values(err.errors).map(val => val.message);
-            error = new Error(message.join(', '));
-            error.statusCode = 400;
-        }
-
-
-        // Multer File Error
-        if (error instanceof multer.MulterError) {
-            return res.status(400).json({error: error, message: error.message, data: null});
-        }
-
-        return res.status(err.statusCode || 500).json({
-            success: false,
-            message: error.message || 'Server Error',
-            data: null
-        });
-    } catch (err) {
-        next(err);
+    // Mongoose bad object id
+    if (err.name === "CastError") {
+      const message = "Resource Not Found";
+      error.message = new Error(message);
+      error.statusCode = 404;
     }
-}
+
+    // Mongoose duplicate key
+    if (err.code === 11000) {
+      const message = "Duplicate field value entered";
+      error = new Error(message);
+      error.statusCode = 400;
+    }
+
+    // Mongoose validation error
+    if (err.name === "ValidationError") {
+      const message = Object.values(err.errors).map((val) => val.message);
+      error = new Error(message.join(", "));
+      error.statusCode = 400;
+    }
+
+    // Multer File Error
+    if (error instanceof multer.MulterError) {
+      return apiResponse.error(res, error.message, 400, error);
+    }
+
+    return apiResponse.error(res, error.message, err.statusCode || 500, error);
+  } catch (err) {
+    next(err);
+  }
+};
 
 export default errorMiddleware;
