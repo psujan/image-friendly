@@ -1,10 +1,6 @@
 import React from "react";
-import {
-  Typography,
-  Grid,
-  Box,
-  Button,
-} from "@mui/material";
+import { Typography, Grid, Box, Button } from "@mui/material";
+import { Link } from "react-router";
 import { styled } from "@mui/material/styles";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -12,11 +8,8 @@ import CompressOutlinedIcon from "@mui/icons-material/CompressOutlined";
 import CropOutlinedIcon from "@mui/icons-material/CropOutlined";
 import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined";
 
-
 import HomeText from "./partials/HomeText.jsx";
 import PageLayout from "../../components/PageLayout.jsx";
-
-
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -30,74 +23,82 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
+const homeFeatures = [
+  {
+    text: "Resize Image",
+    icon: <AspectRatioIcon size={16} />,
+    route: "/resize",
+  },
+  {
+    text: "Compress Image",
+    icon: <CompressOutlinedIcon />,
+    route: "/compress",
+  },
+  {
+    text: "Crop Image",
+    icon: <CropOutlinedIcon />,
+    route: "/compress",
+  },
+  {
+    text: "Create Slideshow",
+    icon: <SlideshowOutlinedIcon />,
+    route: "/slideshow",
+  },
+];
+
 export default function Homepage() {
   return (
     <PageLayout>
       <HomeText />
 
       {/*App Options Card*/}
-      <Box sx={{ width: "100%", px: 2 }}>
+      <Box>
         <Grid container spacing={2}>
-          {[
-            {
-              text: "Resize Image",
-              icon: <AspectRatioIcon size={16} />,
-            },
-            {
-              text: "Compress Image",
-              icon: <CompressOutlinedIcon />,
-            },
-            {
-              text: "Crop Image",
-              icon: <CropOutlinedIcon />,
-            },
-            {
-              text: "Create Slideshow",
-              icon: <SlideshowOutlinedIcon />,
-            },
-          ].map((item, i) => (
+          {homeFeatures.map((item, i) => (
             <Grid item xs={12} sm={6} md={4} key={i}>
-              <Box
-                sx={{
-                  backgroundColor: "white",
-                  border: "1px solid #e8eaee",
-                  height: "100px",
-                  p: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  borderRadius: 2,
-                  minWidth: "230px",
-                  transition: "0.35s ease",
-                  "&:hover": {
-                    backgroundColor: "var(--primary-light-70)",
-                    borderColor: "var(--primary-light-70)",
-                    cursor: "pointer",
-                    "& .feature-icon": {
-                      backgroundColor: "var(--primary-color)",
-                      color: "#fff", // example hover background
-                    },
-                  },
-                }}
-              >
+              <Link to={item.route}>
                 <Box
-                  className="feature-icon"
                   sx={{
-                    backgroundColor: "#f4f4f4",
-                    p: 2,
-                    borderRadius: 2,
-                    mr: 1.5,
+                    backgroundColor: "white",
+                    border: "1px solid #e8eaee",
+                    height: "100px",
+                    p: 1,
                     display: "flex",
-                    justifyContent: "center",
                     alignItems: "center",
+                    borderRadius: 2,
+                    minWidth: "230px",
                     transition: "0.35s ease",
+                    "&:hover": {
+                      backgroundColor: "var(--primary-light-70)",
+                      borderColor: "var(--primary-light-70)",
+                      cursor: "pointer",
+                      "& .feature-icon": {
+                        backgroundColor: "var(--primary-color)",
+                        color: "#fff", // example hover background
+                      },
+                    },
                   }}
                 >
-                  {item.icon}
+                  <Box
+                    className="feature-icon"
+                    sx={{
+                      backgroundColor: "#f4f4f4",
+                      p: 2,
+                      borderRadius: 2,
+                      mr: 1.5,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      transition: "0.35s ease",
+                    }}
+                  >
+                    {item.icon}
+                  </Box>
+                  <Typography variant="h6" className="title-text-bold">
+                    {item.text}
+                  </Typography>
                 </Box>
-                <Typography variant="h6" className="title-text-bold">
-                  {item.text}
-                </Typography>
-              </Box>
+              </Link>
             </Grid>
           ))}
         </Grid>
@@ -106,7 +107,6 @@ export default function Homepage() {
       {/*  Upload  */}
       <Box
         sx={{
-          width: "100%",
           mt: 3,
           display: "flex",
           justifyContent: "center",

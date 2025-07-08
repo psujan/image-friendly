@@ -3,16 +3,18 @@ import Homepage from "./pages/Home/Homepage.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./utils/theme.js";
 import CompressPage from "./pages/Compress/CompressPage.jsx";
+import ToastProvider from "./components/ui/ToastProvider.jsx";
 
 function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Routes>
-          <Route path="/" element={<Homepage />} exact />
-          <Route path="/compress" element={<CompressPage />} exact />
-
-        </Routes>
+        <ToastProvider>
+          <Routes>
+            <Route path="/" element={<Homepage />} exact />
+            <Route path="/compress" element={<CompressPage />} exact />
+          </Routes>
+        </ToastProvider>
       </ThemeProvider>
     </>
   );

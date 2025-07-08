@@ -58,45 +58,43 @@ const getImageSize = (imageName) => {
   }
 };
 
-const compressService = async (req, res) => {
+const compressService = async (req) => {
   try {
-  await ensureTempDir();
-  const imagePath = path.join(
-    process.cwd(),
-    "backend",
-    "public",
-    "uploads",
-    req.body.imageName
-  );
-  const originalSize = getImageSize(req.body.imageName).bytes;
+    await ensureTempDir();
+    const imagePath = path.join(
+      process.cwd(),
+      "backend",
+      "public",
+      "uploads",
+      req.body.imageName
+    );
+    return await compressImage(imagePath, req.body);
+    // const compressedSize = compressedBuffer.length;
+    // const timestamp = Date.now(); // for fileName
+    // const format = req.body.format || "jpeg"; // image format
+    // const filename = `compressed_${timestamp}.${format}`;
+    // const filePath = path.join(TEMP_DIR, filename);
 
-  const compressedBuffer = await compressImage(imagePath, req.body);
-  const compressedSize = compressedBuffer.length;
-  const timestamp = Date.now(); // for fileName
-  const format = req.body.format || "jpeg"; // image format
-  const filename = `compressed_${timestamp}.${format}`;
-  const filePath = path.join(TEMP_DIR, filename);
-
-  // Save compressed image
-  await fsPromise.writeFile(filePath, compressedBuffer);
-  const compressionRatio = (
-    ((originalSize - compressedSize) / originalSize) *
-    100
-  ).toFixed(2);
-  res.json({
-    success: true,
-    data: {
-      filename,
-      originalSize: helper.byteToMb(originalSize) + ' Mb',
-      compressedSize: helper.byteToMb(compressedSize) + ' Mb',
-      compressionRatio: `${compressionRatio}%`,
-      savings: helper.byteToMb(originalSize - compressedSize) + ' Mb',
-      downloadUrl: BASE_URL + `/public/temp/${filename}`,
-    },
-    message: "Image Compressed Successfully",
-  });
+    // // Save compressed image
+    // await fsPromise.writeFile(filePath, compressedBuffer);
+    // const compressionRatio = (
+    //   ((originalSize - compressedSize) / originalSize) *
+    //   100
+    // ).toFixed(2);
+    // res.json({
+    //   success: true,
+    //   data: {
+    //     filename,
+    //     originalSize: helper.byteToMb(originalSize) + ' Mb',
+    //     compressedSize: helper.byteToMb(compressedSize) + ' Mb',
+    //     compressionRatio: `${compressionRatio}%`,
+    //     savings: helper.byteToMb(originalSize - compressedSize) + ' Mb',
+    //     downloadUrl: BASE_URL + `/public/temp/${filename}`,
+    //   },
+    //   message: "Image Compressed Successfully",
+    //});
   } catch (err) {
-      throw err;
+    throw err;
   }
 };
 
@@ -205,8 +203,10 @@ const compressImage = async (buffer, options = {}) => {
         progressive: finalProgressive,
       });
   }
-
-  return await transformer.toBuffer();
+  return {
+    buffer: await transformer.toBuffer(),
+    format: format,
+  };
 };
 
 export { resizeService, compressService };
