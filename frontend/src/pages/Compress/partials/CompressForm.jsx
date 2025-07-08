@@ -34,7 +34,10 @@ export default function CompressForm() {
   };
 
   const handleSubmit = () => {
-    console.log("here");
+    const imgName =  localStorage.getItem("currentSingleUploadedItem")
+    if(!imgName){
+      alert("No Uploaded Image Found");
+    }
     setIsSubmitting(true);
     api
       .post(
@@ -44,7 +47,7 @@ export default function CompressForm() {
           height: height,
           format,
           preset,
-          imageName: "test-img.png",
+          imageName: imgName
         },
         {
           responseType: "blob",

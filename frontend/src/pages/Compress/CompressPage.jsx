@@ -1,6 +1,6 @@
 import React from "react";
 import PageLayout from "../../components/PageLayout";
-import { Typography, Box, Button, IconButton } from "@mui/material";
+import { Typography, Box, Button, IconButton, Skeleton } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { styled } from "@mui/material/styles";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
@@ -8,26 +8,20 @@ import CompressForm from "./partials/CompressForm";
 import theme from "../../utils/theme";
 import { useRef, useState } from "react";
 import { allowedImageExtensions } from "../../../../backend/utils/constant";
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
+import api from "../../utils/api";
+import Toast from "../../utils/toast";
 
 export default function CompressPage() {
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleUploadClick = () => {
-    console.log("clicking upload");
+    if (isUploading) {
+      return;
+    }
+
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -56,11 +50,36 @@ export default function CompressPage() {
       alert("The selected file is not an image.");
       return;
     }
-
-    const imageUrl = URL.createObjectURL(file);
-    setPreview(imageUrl);
-    setUploadedFile(file);
-    resetFile();
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("image", file);
+    api
+      .post("/api/v1/image/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.data.success) {
+          const imageUrl = URL.createObjectURL(file);
+          setPreview(imageUrl);
+          setUploadedFile(file);
+          localStorage.setItem(
+            "currentSingleUploadedItem",
+            res.data.data.filename
+          );
+          Toast.success("File uploaded successfully");
+          console.log("File Load Success");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        Toast.error("Something Went Wrong");
+      })
+      .finally(() => {
+        setIsUploading(false);
+        resetFile();
+      });
   };
 
   const resetFile = () => {
@@ -98,6 +117,7 @@ export default function CompressPage() {
           >
             Compress image with your desired settings
           </Typography>
+
           <Box sx={{ mt: 2 }}>
             <Box
               onClick={() => handleUploadClick()}
@@ -120,7 +140,6 @@ export default function CompressPage() {
                 boxShadow: "none",
                 borderRadius: "6px",
                 cursor: "pointer",
-                outline: "2px solid var(--primary-color-70)",
                 border: "2px dashed var(--primary-color)",
 
                 "&:hover": {
@@ -147,11 +166,12 @@ export default function CompressPage() {
                     marginTop: "8px",
                   }}
                 >
-                  Upload Image Here
+                  {isUploading ? " Uploading Image ..." : "Upload Image Here"}
                 </span>
               </Box>
             </Box>
           </Box>
+
           <input
             type="file"
             style={{ visibility: "hidden" }}
