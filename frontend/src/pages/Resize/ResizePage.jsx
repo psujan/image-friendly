@@ -2,15 +2,15 @@ import React from "react";
 import { Typography, Box, Button, IconButton, Skeleton } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import CompressForm from "./partials/CompressForm";
 import theme from "../../utils/theme";
 import { useRef, useState } from "react";
 import { allowedImageExtensions } from "../../../../backend/utils/constant";
 import api from "../../utils/api";
 import Toast from "../../utils/toast.js";
-import PageLayout from "../../components/PageLayout.jsx"
+import PageLayout from "../../components/PageLayout.jsx";
+import ResizeForm from "./partials/ResizeForm.jsx";
 
-export default function CompressPage() {
+export default function ResizePage() {
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -128,7 +128,7 @@ export default function CompressPage() {
               mb: 2,
             }}
           >
-            Compress Image
+            Resize Image
           </Typography>
           <Typography
             sx={{
@@ -136,7 +136,7 @@ export default function CompressPage() {
               mb: 4,
             }}
           >
-            Compress image with your desired settings
+            Easily resize image with your desired settings
           </Typography>
 
           <Box sx={{ mt: 2 }}>
@@ -262,7 +262,7 @@ export default function CompressPage() {
           )}
         </Box>
         <Box sx={{ flex: 1 }}>
-          <CompressForm />
+          <ResizeForm />
         </Box>
       </Box>
     </PageLayout>
