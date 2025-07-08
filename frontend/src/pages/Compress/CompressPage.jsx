@@ -2,14 +2,13 @@ import React from "react";
 import PageLayout from "../../components/PageLayout";
 import { Typography, Box, Button, IconButton, Skeleton } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { styled } from "@mui/material/styles";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import CompressForm from "./partials/CompressForm";
 import theme from "../../utils/theme";
 import { useRef, useState } from "react";
 import { allowedImageExtensions } from "../../../../backend/utils/constant";
 import api from "../../utils/api";
-import Toast from "../../utils/toast";
+import Toast from "../../utils/toast.js";
 
 export default function CompressPage() {
   const fileInputRef = useRef(null);
@@ -31,23 +30,23 @@ export default function CompressPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    console.log(file);
-
     // Get file extension
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
     // Validate extension
     if (!allowedImageExtensions.includes(fileExtension)) {
-      alert(
+      Toast.error(
         "Unsupported image format. Allowed: " +
           allowedImageExtensions.toString()
       );
+      resetFile()
       return;
     }
 
     // Optional: check MIME type also (good fallback)
     if (!file.type.startsWith("image/")) {
-      alert("The selected file is not an image.");
+      Toast.error("The selected files is not an image");
+      resetFile()
       return;
     }
     setIsUploading(true);
@@ -93,6 +92,7 @@ export default function CompressPage() {
     setUploadedFile(null);
     setPreview(null);
     resetFile();
+    localStorage.removeItem("");
   };
 
   return (

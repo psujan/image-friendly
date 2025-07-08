@@ -1,29 +1,13 @@
-import React from "react";
-import { Link } from "react-router";
-import {
-  Box,
-  Container,
-  AppBar,
-  Toolbar,
-  Avatar,
-  Typography,
-} from "@mui/material";
+import { Box, Container } from "@mui/material";
+import AppHeader from "./common/AppHeader";
+import { useLocation } from "react-router";
+import AppHeaderHome from "./common/AppHeaderHome";
 
-import {
-  Home as HomeIcon,
-  FolderOpen as ProjectsIcon,
-  AutoAwesome as AIIcon,
-  Inventory as StockIcon,
-  Add as AddIcon,
-  MoreHoriz as MoreIcon,
-} from "@mui/icons-material";
-
-// const sidebarItems = [
-//   { icon: <HomeIcon />, label: "Home", active: true },
-//   { icon: <ProjectsIcon />, label: "Slideshow" },
-//   { icon: <StockIcon />, label: "Gallery" },
-// ];
 export default function PageLayout({ children }) {
+  const location = useLocation();
+  const path = location.pathname;
+  console.log(path);
+
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#fff" }}>
       {/* <Box
@@ -63,44 +47,7 @@ export default function PageLayout({ children }) {
       {/* Main Content */}
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
         {/* Header */}
-        <AppBar
-          position="static"
-          elevation={0}
-          sx={{
-            bgcolor: "white",
-            color: "black",
-            borderBottom: "1px solid #e8eaee",
-          }}
-        >
-          <Toolbar sx={{ justifyContent: "space-between" }}>
-            <Link to="/">
-              <Typography
-                variant="h6"
-                color="primary"
-                sx={{
-                  fontWeight: "bold",
-                  letterSpacing: "0.5px",
-                }}
-              >
-                IMG Friendly
-              </Typography>
-            </Link>
-
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Avatar
-                variant="primary"
-                sx={{
-                  bgcolor: "var(--primary-light-20)",
-                  width: 32,
-                  height: 32,
-                  fontSize: "14px",
-                }}
-              >
-                S
-              </Avatar>
-            </Box>
-          </Toolbar>
-        </AppBar>
+        {path === "/" ? <AppHeaderHome /> : <AppHeader />}
         <Box>
           <Container maxWidth="100%" sx={{ py: 4, flex: 1 }}>
             <Box sx={{ mb: 6 }}>{children}</Box>
