@@ -8,6 +8,7 @@ import {
   Button,
   Select,
   MenuItem,
+  Tooltip,
 } from "@mui/material";
 
 import api from "../../../utils/api";
@@ -21,6 +22,7 @@ export default function CompressForm() {
   const [format, setFormat] = useState("jpeg");
   const [downloadUrl, setDownloadUrl] = useState("");
   const [filename, setFilename] = useState("compressed-image");
+  const [imageInfo, setImageInfo] = useState({});
 
   const handleDownload = () => {
     const a = document.createElement("a");
@@ -34,8 +36,8 @@ export default function CompressForm() {
   };
 
   const handleSubmit = () => {
-    const imgName =  localStorage.getItem("currentSingleUploadedItem")
-    if(!imgName){
+    const imgName = localStorage.getItem("currentSingleUploadedItem");
+    if (!imgName) {
       alert("No Uploaded Image Found");
     }
     setIsSubmitting(true);
@@ -47,7 +49,7 @@ export default function CompressForm() {
           height: height,
           format,
           preset,
-          imageName: imgName
+          imageName: imgName,
         },
         {
           responseType: "blob",
@@ -56,29 +58,48 @@ export default function CompressForm() {
       .then((res) => {
         console.log(res);
 
-        if (res.data) {
-          // Default MIME type based on format
-          const defaultMime = `image/${format}`;
-          const mime = res.headers["content-type"] || defaultMime;
-          const blob = new Blob([res.data], {
-            type: mime,
-          });
-
-          // Try to extract filename from headers, otherwise fallback
-          let resolvedFilename = `compressed.${format}`;
-          const contentDisposition = res.headers["content-disposition"];
-
-          if (contentDisposition) {
-            const match = contentDisposition.match(/filename="?([^"]+)"?/);
-            if (match && match[1]) {
-              resolvedFilename = match[1];
-            }
-          }
-
-          const url = URL.createObjectURL(blob);
-          setDownloadUrl(url);
-          setFilename(resolvedFilename);
+        if (!res.data) {
+          return;
         }
+        // Default MIME type based on format
+        const defaultMime = `image/${format}`;
+        const mime = res.headers["content-type"] || defaultMime;
+        console.log("mime is", mime);
+        const blob = new Blob([res.data], {
+          type: mime,
+        });
+
+        console.log("Type is" + blob.type);
+
+        // Try to extract filename from headers, otherwise fallback
+        let resolvedFilename = `compressed.${format}`;
+        const contentDisposition = res.headers["content-disposition"];
+
+        if (contentDisposition) {
+          const match = contentDisposition.match(/filename="?([^"]+)"?/);
+          if (match && match[1]) {
+            resolvedFilename = match[1];
+          }
+        }
+
+        const url = URL.createObjectURL(blob);
+
+        //get image properties
+        const image = new Image();
+        image.src = url;
+
+        image.onload = () => {
+          setImageInfo(() => {
+            return {
+              sizeInMB: (blob.size / (1024 * 1024)).toFixed(2),
+              format: blob.type,
+              width: image.naturalWidth,
+              height: image.naturalHeight,
+            };
+          });
+        };
+        setDownloadUrl(url);
+        setFilename(resolvedFilename);
       })
       .catch((err) => {
         setDownloadUrl(null);
@@ -169,20 +190,36 @@ export default function CompressForm() {
             sx={{ width: "100%" }}
             size="large"
             onClick={() => handleSubmit()}
+            disabled={isSubmitting}
           >
-            Compress
+            {isSubmitting ? "Please Wait ..." : "Compress"}
           </Button>
         </Grid>
         {downloadUrl ? (
           <Grid size={{ md: downloadUrl ? 6 : 12 }} sx={{ mt: 1 }}>
-            <Button
-              variant="outlined"
-              sx={{ width: "100%" }}
-              size="large"
-              onClick={() => handleDownload()}
+            <Tooltip
+              title={
+                "Size: " +
+                imageInfo?.sizeInMB +
+                " Mb" +
+                " | Format:" +
+                imageInfo.format +
+                " | Dimensions:" +
+                imageInfo.width +
+                "*" +
+                imageInfo.height
+              }
+              placement="top-start"
             >
-              Download
-            </Button>
+              <Button
+                variant="outlined"
+                sx={{ width: "100%" }}
+                size="large"
+                onClick={() => handleDownload()}
+              >
+                Download
+              </Button>
+            </Tooltip>
           </Grid>
         ) : (
           ""

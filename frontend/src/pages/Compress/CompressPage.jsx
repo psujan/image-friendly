@@ -39,14 +39,14 @@ export default function CompressPage() {
         "Unsupported image format. Allowed: " +
           allowedImageExtensions.toString()
       );
-      resetFile()
+      resetFile();
       return;
     }
 
     // Optional: check MIME type also (good fallback)
     if (!file.type.startsWith("image/")) {
       Toast.error("The selected files is not an image");
-      resetFile()
+      resetFile();
       return;
     }
     setIsUploading(true);
@@ -207,12 +207,23 @@ export default function CompressPage() {
                   <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
                     {uploadedFile?.name}
                   </Typography>
-                  <Typography
-                    variant="caption"
-                    sx={{ fontWeight: 400, color: "#666" }}
-                  >
-                    {(uploadedFile.size / (1024 * 1024)).toFixed(2)} Mb
-                  </Typography>
+                  <Box sx={{ display: "flex" }}>
+                    <Typography
+                      variant="caption"
+                      sx={{ fontWeight: 400, color: "#666" }}
+                    >
+                      {(uploadedFile.size / (1024 * 1024)).toFixed(2)} Mb
+                    </Typography>
+                    {/* <Typography variant="caption" sx={{ padding: "0 6px" }}>
+                      |
+                    </Typography> */}
+                    {/* <Typography
+                      variant="caption"
+                      sx={{ fontWeight: 400, color: "#666" }}
+                    >
+                      {400 + "*" + 400}
+                    </Typography> */}
+                  </Box>
                 </Box>
               </Box>
               <Box>
