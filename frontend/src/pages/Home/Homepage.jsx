@@ -37,7 +37,7 @@ const homeFeatures = [
   {
     text: "Crop Image",
     icon: <CropOutlinedIcon />,
-    route: "/compress",
+    route: "/crop",
   },
   {
     text: "Create Slideshow",
