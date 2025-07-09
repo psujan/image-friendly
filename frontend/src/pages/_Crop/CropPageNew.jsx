@@ -91,6 +91,7 @@ export default function CropPageNew() {
 
     reader.readAsDataURL(file);
     setImageInfo(file);
+    setPreview(URL.createObjectURL(file));
   };
 
   const backToUpload = () => {
@@ -241,7 +242,14 @@ export default function CropPageNew() {
       <Box sx={{ display: "flex", justifyContent: "space-between", p: "20px" }}>
         <Box sx={{ flex: 2 }}>
           {isUploaded ? (
-            <Button onClick={() => backToUpload()} variant="text">
+            <Button
+              onClick={() => {
+                deleteFile();
+                backToUpload();
+              }}
+              variant="text"
+              sx={{ borderRadius: "6px", textTransform: "capitalize" }}
+            >
               <KeyboardBackspaceOutlinedIcon sx={{ marginRight: "6px" }} />
               Back To Upload
             </Button>
@@ -318,7 +326,10 @@ export default function CropPageNew() {
               </Box>
               <Box>
                 <IconButton
-                  onClick={() => deleteFile()}
+                  onClick={() => {
+                    deleteFile();
+                    backToUpload();
+                  }}
                   aria-label="delete"
                   sx={{ color: theme.palette.error.main }}
                 >
@@ -427,18 +438,6 @@ export default function CropPageNew() {
                   </div>
                   <div>
                     <button onClick={onDownloadCropClick}>Download Crop</button>
-                    <div style={{ fontSize: 12, color: "#666" }}>
-                      If you get a security error when downloading try opening
-                      the Preview in a new tab (icon near top right).
-                    </div>
-                    <a
-                      href="#hidden"
-                      ref={hiddenAnchorRef}
-                      download
-                     
-                    >
-                      Hidden download
-                    </a>
                   </div>
                 </>
               )}
