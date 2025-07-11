@@ -17,5 +17,6 @@ config({ path: envFile });
 export const { PORT,
     NODE_ENV,
     BASE_URL,
-    PATH
+    PATH,
+    DB_URI
 } = process.env;

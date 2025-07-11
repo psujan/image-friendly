@@ -63,3 +63,7 @@ typings/
 
 # Ignore backend env
 /backend/.env*
+
+
+#Ignore file uploads folder
+/backend/public/
