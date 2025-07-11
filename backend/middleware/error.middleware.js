@@ -3,39 +3,56 @@ import apiResponse from "../utils/response.js";
 
 const errorMiddleware = (err, req, res, next) => {
   try {
-    let error = { ...err };
-    error.message = err.message;
-    console.error("error captured", error);
+    let statusCode = err.statusCode || 500;
+    let message = err.message || "Internal Server Error";
+    let errorType = "INTERNAL_ERROR"; // default
+    let extra = {};
 
-    // Mongoose bad object id
+    console.error("Captured error:", err);
+
+    // 🔍 Mongoose CastError (invalid ObjectId)
     if (err.name === "CastError") {
-      const message = "Resource Not Found";
-      error.message = new Error(message);
-      error.statusCode = 404;
+      statusCode = 404;
+      message = "Resource not found";
+      errorType = "RESOURCE_NOT_FOUND";
     }
 
-    // Mongoose duplicate key
+    // 🔍 Duplicate key (unique fields)
     if (err.code === 11000) {
-      const message = "Duplicate field value entered";
-      error = new Error(message);
-      error.statusCode = 400;
+      statusCode = 400;
+      message = "Duplicate field value entered";
+      errorType = "DUPLICATE_FIELD";
     }
 
-    // Mongoose validation error
+    // 🔍 Mongoose validation error
     if (err.name === "ValidationError") {
-      const message = Object.values(err.errors).map((val) => val.message);
-      error = new Error(message.join(", "));
-      error.statusCode = 400;
+      statusCode = 400;
+      const messages = Object.values(err.errors).map((val) => val.message);
+      message = messages.join(", ");
+      errorType = "VALIDATION_ERROR";
     }
 
-    // Multer File Error
-    if (error instanceof multer.MulterError) {
-      return apiResponse.error(res, error.message, 400, error);
+    // 🔍 Multer file error
+    if (err instanceof multer.MulterError) {
+      statusCode = 400;
+      message = err.message;
+      errorType = "FILE_UPLOAD_ERROR";
     }
 
-    return apiResponse.error(res, error.message, err.statusCode || 500, error);
-  } catch (err) {
-    next(err);
+    // Optional: custom application-defined errorType
+    if (err.errorType) {
+      errorType = err.errorType;
+    }
+
+    return apiResponse.error(res, message, statusCode, {
+      errorType,
+      error: err,
+    });
+  } catch (internalError) {
+    return apiResponse.error(res, "Something went wrong", 500, {
+      errorType: "INTERNAL_ERROR",
+      error: internalError,
+    });
   }
 };
 
