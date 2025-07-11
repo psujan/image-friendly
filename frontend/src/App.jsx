@@ -5,8 +5,8 @@ import theme from "./utils/theme.js";
 import CompressPage from "./pages/Compress/CompressPage.jsx";
 import ToastProvider from "./components/ui/ToastProvider.jsx";
 import ResizePage from "./pages/Resize/ResizePage.jsx";
-import CropPage from "./pages/Crop/CropPage.jsx";
-import CropPageNew from "./pages/_Crop/CropPageNew.jsx";
+import CropPageNew from "./pages/Crop/CropPageNew.jsx";
+import 'react-image-crop/dist/ReactCrop.css'
 
 function App() {
   return (
@@ -17,8 +17,7 @@ function App() {
             <Route path="/" element={<Homepage />} exact />
             <Route path="/compress" element={<CompressPage />} />
             <Route path="/resize" element={<ResizePage />} />
-            <Route path="/crop" element={<CropPage />} />
-            <Route path="/crop-new" element={<CropPageNew />} />
+            <Route path="/crop" element={<CropPageNew />} />
           </Routes>
         </ToastProvider>
       </ThemeProvider>

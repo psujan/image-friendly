@@ -10,6 +10,7 @@ import CropForm from "./partials/CropForm.jsx";
 import { canvasPreview } from "./partials/canvasPreview.js";
 import { useDebounceEffect } from "./partials/useDebounceEffect.js";
 import theme from "../../utils/theme.js";
+
 import ReactCrop, {
   centerCrop,
   makeAspectCrop,
@@ -40,6 +41,9 @@ export default function CropPageNew() {
     resetFile();
     localStorage.removeItem("currentSingleUploadedItem");
   };
+
+  const handleRotate = (v) => setRotate(v);
+  const handleScale = (v) => setScale(v);
 
   // This is to demonstate how to make and center a % aspect crop
   // which is a bit trickier so we use some helper functions.
@@ -185,8 +189,11 @@ export default function CropPageNew() {
     // You might want { type: "image/jpeg", quality: <0 to 1> } to
     // reduce image size
     const blob = await offscreen.convertToBlob({
-      type: "image/png",
+      type: `image/${imageInfo.format}`,
     });
+
+    console.log(imageInfo.format);
+    console.log("here is the blob", blob);
 
     if (blobUrlRef.current) {
       URL.revokeObjectURL(blobUrlRef.current);
@@ -195,6 +202,7 @@ export default function CropPageNew() {
 
     if (hiddenAnchorRef.current) {
       hiddenAnchorRef.current.href = blobUrlRef.current;
+      hiddenAnchorRef.current.download = `cropped_${imageInfo.name}`;
       hiddenAnchorRef.current.click();
     }
   }
@@ -418,6 +426,7 @@ export default function CropPageNew() {
                     src={imgSrc}
                     style={{
                       transform: `scale(${scale}) rotate(${rotate}deg)`,
+                      maxWidth: "100%",
                     }}
                     onLoad={onImageLoad}
                   />
@@ -437,7 +446,19 @@ export default function CropPageNew() {
                     />
                   </div>
                   <div>
-                    <button onClick={onDownloadCropClick}>Download Crop</button>
+                    {/* <button onClick={onDownloadCropClick}>Download Crop</button> */}
+                    <a
+                      href="#hidden"
+                      ref={hiddenAnchorRef}
+                      download
+                      style={{
+                        position: "absolute",
+                        top: "-200vh",
+                        visibility: "hidden",
+                      }}
+                    >
+                      Hidden download
+                    </a>
                   </div>
                 </>
               )}
@@ -461,7 +482,12 @@ export default function CropPageNew() {
           }}
           className="crop-control-box"
         >
-          <CropForm />
+          <CropForm
+            downloadCrop={onDownloadCropClick}
+            handleRotate={handleRotate}
+            handleScale={handleScale}
+            isUploaded={isUploaded}
+          />
         </Box>
       </Box>
     </PageLayout>
