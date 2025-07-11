@@ -16,22 +16,59 @@ const ensureTempDir = async () => {
   }
 };
 
-const resizeService = async ({ imageName, width, height, fit }) => {
+const getFormatOptionsFromCompression = (format, compressionLabel) => {
+  const presets = {
+    no: { quality: 100, compressionLevel: 0 },
+    low: { quality: 85, compressionLevel: 3 },
+    medium: { quality: 70, compressionLevel: 6 },
+    high: { quality: 50, compressionLevel: 9 },
+  };
+
+  const defaultPreset = presets["medium"];
+  const selected = presets[compressionLabel] || defaultPreset;
+
+  // Normalize format (e.g. jpeg → jpg)
+  const normalizedFormat = format.toLowerCase();
+
+  if (["jpg", "jpeg", "webp", "avif", "tiff"].includes(normalizedFormat)) {
+    return { quality: selected.quality };
+  }
+
+  if (normalizedFormat === "png") {
+    return { compressionLevel: selected.compressionLevel };
+  }
+
+  return {}; // fallback
+};
+
+const resizeService = async ({
+  imageName,
+  width,
+  height,
+  fit,
+  format,
+  compression,
+}) => {
   try {
+    const sanitizedName = path.basename(imageName);
     const originalPath = path.join(
       process.cwd(),
       "backend",
       "public",
       "uploads",
-      imageName
+      sanitizedName
     );
+    const formatOptions = getFormatOptionsFromCompression(format, compression);
     const resizeOptions = {
-      width: width,
-      height: height,
+      width: parseInt(width),
+      height: parseInt(height),
       fit: fit,
-      withoutEnable: true,
+      withoutEnlargement: true,
     };
-    return sharp(originalPath).resize(resizeOptions).toBuffer();
+    return sharp(originalPath)
+      .resize(resizeOptions)
+      .toFormat(format, formatOptions)
+      .toBuffer();
   } catch (err) {
     throw err;
   }

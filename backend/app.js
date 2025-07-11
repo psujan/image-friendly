@@ -1,29 +1,34 @@
-import express from 'express'
-import routes from "./routes/index.router.js"
-import cookieParser from "cookie-parser"
+import express from "express";
+import routes from "./routes/index.router.js";
+import cookieParser from "cookie-parser";
 import errorMiddleware from "./middleware/error.middleware.js";
 import path from "path";
-import cors from 'cors';
-
-
+import cors from "cors";
 
 const app = express();
 
 // Enable CORS for all routes and origins
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    exposedHeaders: ["Content-Disposition"],
+  })
+);
 
 //built in middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
-app.use('/api', routes);
-app.use(errorMiddleware)
+app.use("/api", routes);
+app.use(errorMiddleware);
 // Serve the backend/public folder at /public
-app.use('/public', express.static(path.join(process.cwd(), 'backend', 'public')));
+app.use(
+  "/public",
+  express.static(path.join(process.cwd(), "backend", "public"))
+);
 
 // Serve static files from /uploads
 //app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
-export default app
+export default app;
