@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../config/env.js";
 
 const registerService = async (req) => {
   const session = await mongoose.startSession();
@@ -24,4 +26,28 @@ const registerService = async (req) => {
   }
 };
 
-export { registerService };
+const loginService = async (req) => {
+  try {
+    const user = req.user;
+    // prepare roles
+    const roles = user.role;
+    // generate JWT Token
+    const token = jwt.sign(
+      { id: user._id, name: user.name, email: user.email, roles: roles },
+      JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    return {
+      user,
+      token,
+    };
+    return;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export { registerService, loginService };

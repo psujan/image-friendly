@@ -18,5 +18,6 @@ export const { PORT,
     NODE_ENV,
     BASE_URL,
     PATH,
-    DB_URI
+    DB_URI,
+    JWT_SECRET
 } = process.env;

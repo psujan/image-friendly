@@ -42,12 +42,15 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
+      default: null,
     },
     resetToken: {
       type: String,
+      default: null,
     },
     resetTokenExpires: {
       type: Date,
+      default: null,
     },
   },
   { timestamps: true }
@@ -68,7 +71,7 @@ userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.statics.emailExists = async function (email)  {
+userSchema.statics.emailExists = async function (email) {
   return await this.exists({ email });
 };
 

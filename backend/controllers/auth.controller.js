@@ -1,4 +1,4 @@
-import { registerService } from "../services/auth.services.js";
+import { loginService, registerService } from "../services/auth.services.js";
 import apiResponse from "../utils/response.js";
 
 const register = async (req, res, next) => {
@@ -10,6 +10,13 @@ const register = async (req, res, next) => {
   }
 };
 
-const login = () => {};
+const login = async (req, res, next) => {
+  try {
+    const { token, user } = await loginService(req);
+    return apiResponse.success(res, { token, user }, "Login Successful");
+  } catch (err) {
+    next(err);
+  }
+};
 
 export { register, login };
