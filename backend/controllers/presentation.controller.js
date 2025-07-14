@@ -1,0 +1,8 @@
+const createPresentationFromGallery = ()=>{
+
+}
+
+export {
+    createPresentationFromGallery
+}
+
