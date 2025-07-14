@@ -24,8 +24,8 @@ app.use("/api", routes);
 app.use(errorMiddleware);
 // Serve the backend/public folder at /public
 app.use(
-  "/public",
-  express.static(path.join(process.cwd(), "backend", "public"))
+  "/uploads",
+  express.static(path.join(process.cwd(), "backend", "public","uploads"))
 );
 
 // Serve static files from /uploads
