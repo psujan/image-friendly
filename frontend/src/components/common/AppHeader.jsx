@@ -8,6 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { Link } from "react-router";
+import AppHeaderRight from "./AppHeaderRight";
 
 export default function AppHeader() {
   return (
@@ -57,20 +58,7 @@ export default function AppHeader() {
             Slideshow
           </Link>
         </Box>
-
-        {/* Right side: Avatar */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Avatar
-            sx={{
-              bgcolor: "var(--primary-light-20)",
-              width: 32,
-              height: 32,
-              fontSize: "14px",
-            }}
-          >
-            S
-          </Avatar>
-        </Box>
+        <AppHeaderRight />
       </Toolbar>
     </AppBar>
   );

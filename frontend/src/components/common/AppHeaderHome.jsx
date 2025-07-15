@@ -1,6 +1,14 @@
 import React from "react";
-import { AppBar, Typography, Toolbar, Box, Avatar } from "@mui/material";
+import {
+  AppBar,
+  Typography,
+  Toolbar,
+  Box,
+  Avatar,
+  Button,
+} from "@mui/material";
 import { Link } from "react-router";
+import AppHeaderRight from "./AppHeaderRight";
 
 export default function AppHeaderHome() {
   return (
@@ -27,19 +35,7 @@ export default function AppHeaderHome() {
           </Typography>
         </Link>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Avatar
-            variant="primary"
-            sx={{
-              bgcolor: "var(--primary-light-20)",
-              width: 32,
-              height: 32,
-              fontSize: "14px",
-            }}
-          >
-            S
-          </Avatar>
-        </Box>
+        <AppHeaderRight />
       </Toolbar>
     </AppBar>
   );

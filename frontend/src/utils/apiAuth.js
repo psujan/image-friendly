@@ -9,13 +9,18 @@ const apiAuth = axios.create({
   timeout: 10000,
 });
 
-/// sending dynamic token
-// api.interceptors.request.use((config) => {
-//   const token = localStorage.getItem("token");
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// });
+// sending dynamic token
+apiAuth.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+const isAuthenticated =
+  localStorage.getItem("token") && localStorage.getItem("user") ? true : false;
 
 export default apiAuth;
+
+export { isAuthenticated };

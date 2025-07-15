@@ -83,3 +83,16 @@ a:hover {
   color: var(--primary-color);
   border-bottom: 2px solid var(--primary-color);
 }
+
+#login-password-wrap {
+  position: relative;
+}
+
+.eye-position {
+  position: absolute;
+  top: 54%;
+  right: 5%;
+  cursor: pointer;
+  color: #666;
+  font-size: 15px;
+}
