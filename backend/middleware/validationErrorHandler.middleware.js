@@ -12,7 +12,7 @@ const validateRequest = (req, res, next) => {
   });
   if (!errors.isEmpty()) {
     return apiResponse.error(res, "Validation Failed", 500, {
-      errorType: "VAlIDATION_ERROR",
+      errorType: "VALIDATION_ERROR",
       error: groupedErrors,
     });
   }

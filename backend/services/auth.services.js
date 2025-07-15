@@ -29,6 +29,7 @@ const registerService = async (req) => {
 const loginService = async (req) => {
   try {
     const user = req.user;
+    user.password = undefined; // exclude password in response
     // prepare roles
     const roles = user.role;
     // generate JWT Token
