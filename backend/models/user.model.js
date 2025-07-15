@@ -10,6 +10,13 @@ const userSchema = new mongoose.Schema(
       minLength: 1,
       maxLength: 250,
     },
+    displayName:{
+      type:String,
+      required: [true, "Please provide display name"],
+      trim:true,
+      minLength:1,
+      maxLength:250
+    },
     email: {
       type: String,
       required: [true, "Email is required"],
