@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useUser } from "../../context/userContext";
 import UserButton from "./UserButton";
 
@@ -12,13 +12,16 @@ export default function AppHeaderRight() {
       {isAuthenticated ? (
         <UserButton />
       ) : (
-        <Button
-          sx={{ borderRadius: "20px" }}
-          variant="outlined"
-          onClick={() => navigate("/login")}
-        >
-          Login
-        </Button>
+        <Box>
+          <Link to="/signup">Signup</Link>
+          <Button
+            sx={{ borderRadius: "8px", marginLeft: "18px" }}
+            variant="outlined"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </Button>
+        </Box>
       )}
     </Box>
   );

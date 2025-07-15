@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router";
 import AppHeaderRight from "./AppHeaderRight";
+import AppLogo from "./AppLogo.jsx";
 
 export default function AppHeaderHome() {
   return (
@@ -22,18 +23,7 @@ export default function AppHeaderHome() {
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Link to="/">
-          <Typography
-            variant="h6"
-            color="primary"
-            sx={{
-              fontWeight: "bold",
-              letterSpacing: "0.5px",
-            }}
-          >
-            IMG Friendly
-          </Typography>
-        </Link>
+        <AppLogo />
 
         <AppHeaderRight />
       </Toolbar>

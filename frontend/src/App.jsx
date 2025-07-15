@@ -9,6 +9,7 @@ import CropPageNew from "./pages/Crop/CropPageNew.jsx";
 import "react-image-crop/dist/ReactCrop.css";
 import LoginPage from "./pages/Auth/LoginPage.jsx";
 import { UserProvider } from "./context/userContext.jsx";
+import GalleryPage from "./pages/Gallery/GalleryPage.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/crop" element={<CropPageNew />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboard" element={<Homepage />} />
+              <Route path="/gallery" element={<GalleryPage />} />
             </Routes>
           </UserProvider>
         </ToastProvider>

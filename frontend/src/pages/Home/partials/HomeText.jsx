@@ -1,7 +1,10 @@
 import React from "react";
 import { Typography } from "@mui/material";
+import { useUser } from "../../../context/userContext";
 
 export default function HomeText() {
+  const { user } = useUser();
+  const name = user ? user?.displayName : "";
   return (
     <Typography
       variant="h5"
@@ -11,7 +14,7 @@ export default function HomeText() {
         mb: 4,
       }}
     >
-      Hi! How can I help you ?
+      Hi {name}! How can I help you ?
     </Typography>
   );
 }

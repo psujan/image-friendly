@@ -40,9 +40,9 @@ const homeFeatures = [
     route: "/crop",
   },
   {
-    text: "Create Slideshow",
+    text: "Create PPT",
     icon: <SlideshowOutlinedIcon />,
-    route: "/slideshow",
+    route: "/gallery",
   },
 ];
 
