@@ -1,6 +1,10 @@
 import { Router } from "express";
 import upload from "../../middleware/multer.middleware.js";
-import { uploadPresentationImages } from "../../controllers/gallery.controller.js";
+import {
+  uploadPresentationImages,
+  addGallery,
+  getGallery,
+} from "../../controllers/gallery.controller.js";
 import authenticate from "../../middleware/authenticate.middleware.js";
 import { downloadPresentation } from "../../controllers/presentation.controller.js";
 
@@ -13,7 +17,9 @@ galleryRouter.post(
   uploadPresentationImages
 );
 
-galleryRouter.get("/ppt/:galleryId", authenticate, downloadPresentation)
+galleryRouter.post("/gallery", authenticate, addGallery);
+galleryRouter.get("/gallery-user/", authenticate, getGallery);
 
+galleryRouter.get("/ppt/:galleryId", authenticate, downloadPresentation);
 
 export default galleryRouter;
