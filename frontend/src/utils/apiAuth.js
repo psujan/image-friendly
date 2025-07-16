@@ -18,8 +18,7 @@ apiAuth.interceptors.request.use((config) => {
   return config;
 });
 
-const isAuthenticated =
-  localStorage.getItem("token") && localStorage.getItem("user") ? true : false;
+const isAuthenticated = localStorage.getItem("token");
 
 export default apiAuth;
 
