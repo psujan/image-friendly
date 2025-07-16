@@ -24,8 +24,9 @@ function App() {
               <Route path="/resize" element={<ResizePage />} />
               <Route path="/crop" element={<CropPageNew />} />
               <Route path="/login" element={<LoginPage />} />
+              {/* Protected User Routes */}
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/gallery" element={<GalleryPage />} />
+              <Route path="/gallery/:id" element={<GalleryPage />} />
             </Routes>
           </UserProvider>
         </ToastProvider>

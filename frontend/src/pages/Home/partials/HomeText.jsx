@@ -14,7 +14,7 @@ export default function HomeText() {
         mb: 4,
       }}
     >
-      Hi {name}! How can I help you ?
+      {user?`Welcome back ${name || ''}`:'Hi ! How can I help you ?'}
     </Typography>
   );
 }

@@ -17,6 +17,7 @@ body {
   --primary-light-70: #dbf9fb;
   --primary-light-80: #f0ffff;
   --border-color: #e8eaee;
+  --red-color: #fd1717;
 }
 a {
   text-decoration: none;
@@ -95,4 +96,238 @@ a:hover {
   cursor: pointer;
   color: #666;
   font-size: 15px;
+}
+
+/* Table */
+.app-table {
+  background: white;
+  border-radius: 8px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.table-header {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.table-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.table-subtitle {
+  color: #6b7280;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 6px;
+  /* border: 1px solid #e5e7eb; */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+thead {
+  background: #f9fafb;
+  /* border-bottom: 1px solid #e5e7eb; */
+}
+
+th {
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #666;
+  text-transform: capitalize;
+  letter-spacing: 0.025em;
+}
+
+tbody tr {
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+tbody tr:hover {
+  background: #f9fafb;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+td {
+  padding: 16px 20px;
+  font-size: 0.9rem;
+  color: #374151;
+  vertical-align: middle;
+}
+
+.status {
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 70px;
+  text-align: center;
+}
+
+.status.active {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.status.pending {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.status.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-right: 12px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 2px;
+}
+
+.user-email {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.metric {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.metric-growth {
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-table {
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .table-title {
+    font-size: 2rem;
+  }
+
+  .table-container {
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    padding: 15px 12px;
+  }
+
+  .avatar {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-table {
+    padding: 15px;
+  }
+
+  .table-title {
+    font-size: 1.5rem;
+  }
+
+  .table-subtitle {
+    font-size: 1rem;
+  }
+
+  .table-container {
+    font-size: 0.8rem;
+  }
+
+  th,
+  td {
+    padding: 12px 8px;
+  }
+
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .avatar {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+}
+
+/* Scrollbar Styling */
+.table-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Table */
+
+.MuiFormHelperText-root {
+  color: var(--red-color) !important;
+  margin-left: 3px !important;
 }

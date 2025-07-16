@@ -6,7 +6,6 @@ import { useUser } from "../../context/userContext";
 const UserButton = () => {
   const { user, logout } = useUser();
   const [anchorEl, setAnchorEl] = useState(null);
-  console.log(user);
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };

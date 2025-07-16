@@ -1,33 +1,19 @@
 import React from "react";
-import { Typography, Grid, Box, Button } from "@mui/material";
-import { Link } from "react-router";
-import { styled } from "@mui/material/styles";
+import { Typography, Box} from "@mui/material";
 import HomeText from "../Home/partials/HomeText.jsx";
 import PageLayout from "../../components/PageLayout.jsx";
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
+import GalleryList from "./sections/GalleryList.jsx";
 
 export default function Dashboard() {
   return (
     <PageLayout>
       <HomeText />
-
-      {/*App Options Card*/}
       <Box
         sx={{
           borderRadius: "6px",
           border: "1px solid var(--border-color)",
           padding: "16px",
+          mb: 3,
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -36,7 +22,7 @@ export default function Dashboard() {
               Gallery
             </Typography>
             <Typography sx={{ fontSize: "13px", mt: 1, color: "#666" }}>
-              3 / 3 workspace Available
+              3 / 3 workspace available
             </Typography>
           </Box>
           <Box
@@ -51,11 +37,14 @@ export default function Dashboard() {
               Powerpoint Files
             </Typography>
             <Typography sx={{ fontSize: "13px", mt: 1, color: "#666" }}>
-              3 / 3 items Available
+              3 / 3 items available
             </Typography>
           </Box>
         </Box>
       </Box>
+
+      {/*Gallery*/}
+      <GalleryList />
     </PageLayout>
   );
 }

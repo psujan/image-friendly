@@ -21,11 +21,11 @@ export const UserProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.setItem("token", "");
+    setUser(null)
     navigate("/");
   };
 
   const getUser = () => {
-    console.log("getting user");
     const token = getToken();
     if (!token) {
       return;
