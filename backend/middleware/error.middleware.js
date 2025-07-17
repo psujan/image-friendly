@@ -44,6 +44,11 @@ const errorMiddleware = (err, req, res, next) => {
       errorType = err.errorType;
     }
 
+    if (err.name === "TokenExpiredError") {
+      errorType = "TOKEN_EXPIRED_ERROR";
+      statusCode = 401;
+    }
+
     return apiResponse.error(res, message, statusCode, {
       errorType,
       error: err,
