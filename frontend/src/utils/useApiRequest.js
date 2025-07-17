@@ -31,7 +31,7 @@ axiosInstance.interceptors.response.use(
       localStorage.removeItem("token");
       sessionStorage.removeItem("token");
       // Redirect to login here
-      window.location.href = "/login";
+      window.location.href = "/";
     }
     return Promise.reject(error);
   }

@@ -20,6 +20,10 @@ apiAuth.interceptors.request.use((config) => {
 
 const isAuthenticated = localStorage.getItem("token");
 
+
+
+
+
 export default apiAuth;
 
 export { isAuthenticated };
