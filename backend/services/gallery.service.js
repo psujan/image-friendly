@@ -27,42 +27,36 @@ const createGallery = async (user, title) => {
   }
 };
 
-const createGalleryWithImages = async (user, uploadedImages) => {
+const addImagesToGallery = async (galleryId, uploadedImages) => {
   const session = await mongoose.startSession();
   session.startTransaction();
+  let transactionCommitted = false;
+  console.log("here", galleryId, uploadedImages);
   try {
-    // 1. Create gallery
-    const gallery = await Gallery.create(
-      [
-        {
-          title: "Gallery-" + Date.now(),
-          userId: user.id,
-        },
-      ],
-      { session }
-    );
-
-    // 2. Prepare gallery images
     const images = uploadedImages.map((image) => ({
-      galleryId: gallery[0]._id,
+      galleryId,
       fileName: image.filename,
       imageUrl: `${BASE_URL}/uploads/${image.filename}`,
+      originalName: image.originalname,
+      size: image.size
     }));
 
     await GalleryImage.insertMany(images, { session });
 
-    // 3. Commit transaction
+    // Commit transaction
     await session.commitTransaction();
-    session.endSession();
+    transactionCommitted = true;
 
     return {
-      gallery: gallery[0],
       images,
     };
   } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
+    if (!transactionCommitted) {
+      await session.abortTransaction();
+    }
     throw error;
+  } finally {
+    session.endSession();
   }
 };
 
@@ -111,4 +105,19 @@ const getGalleryList = async (user) => {
   }
 };
 
-export { createGallery, createGalleryWithImages, getGalleryList };
+const getGalleryImagesList = async (id) => {
+  try {
+    console.log("here", id);
+    const galleryImages = await GalleryImage.find({ galleryId: id });
+    return galleryImages;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export {
+  createGallery,
+  addImagesToGallery,
+  getGalleryList,
+  getGalleryImagesList,
+};
