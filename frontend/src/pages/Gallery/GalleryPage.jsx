@@ -12,6 +12,7 @@ import helper from "../../utils/helper.js";
 import DeleteGallery from "./partials/DeleteGallery.jsx";
 import { useLoader } from "../../context/loaderContext.jsx";
 import { useNavigate } from "react-router";
+import UploadImageModal from "./partials/UploadImageModal.jsx";
 
 const DraggableImageItem = ({ image, index, onReorder }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -190,6 +191,7 @@ export default function GalleryPage() {
   const [galleryImages, setGalleryImages] = useState([]);
   const [gallery, setGallery] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
+  const [uploadModal, setUploadModal] = useState(false);
   const { showLoader, hideLoader } = useLoader();
 
   const navigate = useNavigate();
@@ -291,7 +293,16 @@ export default function GalleryPage() {
               {gallery?.title}
             </Typography>
           </Box>
-          <Box>
+          <Box sx={{ display: "flex", gap: 3 }}>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setUploadModal(true);
+              }}
+              disabled={!gallery}
+            >
+              Upload Images
+            </Button>
             <Button
               variant="outlined"
               onClick={() => {
@@ -339,6 +350,12 @@ export default function GalleryPage() {
         open={deleteModal}
         handleOpen={(s) => setDeleteModal(s)}
         handleDelete={() => handleDelete()}
+      />
+      <UploadImageModal
+        open={uploadModal}
+        handleOpen={(s) => setUploadModal(s)}
+        galleryId={id}
+        onSuccess={getGalleryImages}
       />
     </PageLayout>
   );

@@ -74,8 +74,8 @@ export default function GalleryAdd({ open, handleOpen, onAdd = () => {} }) {
                     message: "Title should contain at least one character",
                   },
                   maxLength: {
-                    value: 10,
-                    message: "Title should be up to 10 chars",
+                    value: 100,
+                    message: "Title should be up to 100 chars",
                   },
                 })}
                 type="text"

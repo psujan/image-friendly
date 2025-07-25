@@ -57,8 +57,8 @@ const uploadGalleryImages = async (req, res, next) => {
     const result = await addImagesToGallery(req.params.id, uploadedImages);
     return apiResponse.success(
       res,
+      result,
       `Successfully added ${uploadedImages.length} images to gallery`,
-      result
     );
   } catch (err) {
     next(err);

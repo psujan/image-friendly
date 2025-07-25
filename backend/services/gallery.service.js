@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import Gallery from "../models/gallery.model.js";
 import GalleryImage from "../models/galleryimage.model.js";
 import { BASE_URL } from "../config/env.js";
-import path from 'path'
+import path from 'path';
+import fs from 'fs/promises'
 
 const createGallery = async (user, title) => {
   const session = await mongoose.startSession();
@@ -32,7 +33,6 @@ const addImagesToGallery = async (galleryId, uploadedImages) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   let transactionCommitted = false;
-  console.log("here", galleryId, uploadedImages);
   try {
     const images = uploadedImages.map((image) => ({
       galleryId,
@@ -123,7 +123,7 @@ const _deleteGallery = async (id) => {
   session.startTransaction();
   try {
     const galleryImages = await GalleryImage.find({ galleryId: id });
-
+    console.log("here", galleryImages)
     // proceed if the model has records
     if (galleryImages.length) {
       for (const img of galleryImages) {

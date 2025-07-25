@@ -37,6 +37,7 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+
 const useApiRequest = () => {
   const [isLoading, setIsLoading] = useState(false);
   const get = async (url) => {
@@ -101,4 +102,5 @@ const useApiRequest = () => {
   return { isLoading, get, post, put, _delete, api };
 };
 
+export { axiosInstance };
 export default useApiRequest;
