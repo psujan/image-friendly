@@ -8,9 +8,11 @@ import {
   _deleteGallery,
 } from "../services/gallery.service.js";
 
+export const MAX_GALLERY_COUNT = 3;
+
 const addGallery = async (req, res, next) => {
   try {
-    console.log(req.body);
+    
     const gallery = await createGallery(req.user, req.body.title);
     return apiResponse.success(res, gallery, "Gallery Added Successfully");
   } catch (err) {
@@ -23,7 +25,7 @@ const getGallery = async (req, res, next) => {
     const galleryList = await getGalleryList(req.user);
     return apiResponse.success(
       res,
-      galleryList,
+      { galleryList: galleryList, maxGalleryCount: MAX_GALLERY_COUNT },
       "Gallery Fetched Successfully"
     );
   } catch (err) {
@@ -58,7 +60,7 @@ const uploadGalleryImages = async (req, res, next) => {
     return apiResponse.success(
       res,
       result,
-      `Successfully added ${uploadedImages.length} images to gallery`,
+      `Successfully added ${uploadedImages.length} images to gallery`
     );
   } catch (err) {
     next(err);

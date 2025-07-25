@@ -7,12 +7,20 @@ import {
   uploadGalleryImages,
   deleteGallery,
 } from "../../controllers/gallery.controller.js";
+import { addGalleryRules } from "../../middleware/validations/addGalleryRules.js";
 import authenticate from "../../middleware/authenticate.middleware.js";
 import { downloadPresentation } from "../../controllers/presentation.controller.js";
+import { validateRequest } from "../../middleware/validationErrorHandler.middleware.js";
 
 const galleryRouter = Router();
 
-galleryRouter.post("/gallery", authenticate, addGallery);
+galleryRouter.post(
+  "/gallery",
+  authenticate,
+  addGalleryRules,
+  validateRequest,
+  addGallery
+);
 galleryRouter.get("/gallery-user/", authenticate, getGallery);
 galleryRouter.post("/ppt/:galleryId", authenticate, downloadPresentation);
 galleryRouter.get("/gallery/:id/images", authenticate, getGalleryImages);

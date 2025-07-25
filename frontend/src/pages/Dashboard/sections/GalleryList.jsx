@@ -8,6 +8,7 @@ import Toast from "../../../utils/toast.js";
 export default function GalleryList() {
   const [open, setOpen] = useState(false);
   const [galleries, setGalleries] = useState([]);
+  const [maxGalleryCount, setMaxGalleryCount] = useState();
   const api = useApiRequest();
   const getGallery = async () => {
     const res = await api.get("/api/v1/gallery-user");
@@ -16,7 +17,9 @@ export default function GalleryList() {
       Toast.error("Unable To Fetch Gallery");
       return;
     }
-    setGalleries(res.data);
+    console.log(res);
+    setGalleries(res.data?.galleryList);
+    setMaxGalleryCount(res.data?.maxGalleryCount);
   };
 
   useEffect(() => {
@@ -46,7 +49,11 @@ export default function GalleryList() {
           </Typography>
         </Box>
         <Box>
-          <Button variant="outlined" onClick={() => setOpen(true)}>
+          <Button
+            variant="outlined"
+            onClick={() => setOpen(true)}
+            disabled={galleries.length >= maxGalleryCount}
+          >
             Add
           </Button>
         </Box>
