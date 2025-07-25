@@ -58,7 +58,6 @@ export default function DeleteGallery({ open, handleOpen, handleDelete }) {
                   backgroundColor: "var(--red-color)",
                 }}
                 onClick={() => {
-                  console.log("clicked");
                   handleDelete();
                 }}
                 size="large"

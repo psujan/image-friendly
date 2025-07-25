@@ -11,6 +11,7 @@ import Toast from "../../utils/toast.js";
 import helper from "../../utils/helper.js";
 import DeleteGallery from "./partials/DeleteGallery.jsx";
 import { useLoader } from "../../context/loaderContext.jsx";
+import { useNavigate } from "react-router";
 
 const DraggableImageItem = ({ image, index, onReorder }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -190,6 +191,8 @@ export default function GalleryPage() {
   const [gallery, setGallery] = useState({});
   const [deleteModal, setDeleteModal] = useState(false);
   const { showLoader, hideLoader } = useLoader();
+
+  const navigate = useNavigate();
   const getGalleryImages = async () => {
     const res = await api.get(`/api/v1/gallery/${id}/images`);
     if (!res.success) {
@@ -233,14 +236,27 @@ export default function GalleryPage() {
     setGalleryImages(newImages);
   };
 
-  const handleDelete = () => {
-    console.log("showing loader");
+  const handleDelete = async () => {
     showLoader();
     setDeleteModal(false);
-    setTimeout(() => {
+    try {
+      const res = await api._delete("api/v1/gallery/" + id);
+      if (!res.success) {
+        console.error(res);
+        Toast.error("Something Went Wrong");
+        return;
+      }
+      Toast.success(res.message || "Successful");
+
+      // redirect to dashboard
+      navigate("/dashboard");
+    } catch (err) {
+      console.error(err);
+      console.log("here error captured", err);
+      Toast.error("Something Went Wrong");
+    } finally {
       hideLoader();
-      console.log("hiding loader");
-    }, 10000);
+    }
   };
 
   useEffect(() => {
@@ -281,6 +297,7 @@ export default function GalleryPage() {
               onClick={() => {
                 setDeleteModal(true);
               }}
+              disabled={!gallery}
             >
               Delete
             </Button>

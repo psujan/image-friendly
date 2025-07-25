@@ -9,11 +9,10 @@ export const LoaderProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const showLoader = () => {
-    console.log("fn called");
     setLoading(true);
   };
   const hideLoader = () => setLoading(false);
-  console.log("this is mounted");
+  
   return (
     <LoaderContext.Provider value={{ showLoader, hideLoader }}>
       {loading && (

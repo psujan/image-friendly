@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Gallery from "../models/gallery.model.js";
 import GalleryImage from "../models/galleryimage.model.js";
 import { BASE_URL } from "../config/env.js";
+import path from 'path'
 
 const createGallery = async (user, title) => {
   const session = await mongoose.startSession();
@@ -117,10 +118,55 @@ const getGalleryById = async (id) => {
   return await Gallery.findOne({ _id: id });
 };
 
+const _deleteGallery = async (id) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    const galleryImages = await GalleryImage.find({ galleryId: id });
+
+    // proceed if the model has records
+    if (galleryImages.length) {
+      for (const img of galleryImages) {
+        const filePath = path.join(
+          process.cwd(),
+          "backend",
+          "public",
+          "uploads",
+          img.fileName
+        );
+
+        // remove file from directory
+        try {
+          await fs.unlink(filePath);
+        } catch (err) {
+          console.error(err);
+          // log but don't throw — file may already be missing
+          console.warn(`File not found or couldn't be deleted: ${filePath}`);
+        }
+      }
+
+      //delete gallery images from database
+      await GalleryImage.deleteMany({ galleryId: id }, { session });
+    }
+
+    //delete Gallery
+    await Gallery.deleteOne({ _id: id }, { session });
+
+    //commit transaction
+    await session.commitTransaction();
+  } catch (err) {
+    await session.abortTransaction();
+    throw err;
+  } finally {
+    session.endSession();
+  }
+};
+
 export {
   createGallery,
   addImagesToGallery,
   getGalleryList,
   getGalleryImagesList,
   getGalleryById,
+  _deleteGallery,
 };

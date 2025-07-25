@@ -5,6 +5,7 @@ import {
   getGalleryImagesList,
   addImagesToGallery,
   getGalleryById,
+  _deleteGallery,
 } from "../services/gallery.service.js";
 
 const addGallery = async (req, res, next) => {
@@ -64,4 +65,19 @@ const uploadGalleryImages = async (req, res, next) => {
   }
 };
 
-export { addGallery, getGallery, getGalleryImages, uploadGalleryImages };
+const deleteGallery = async (req, res, next) => {
+  try {
+    await _deleteGallery(req.params.id);
+    return apiResponse.success(res, null, `Gallery Deleted Successfully`);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export {
+  addGallery,
+  getGallery,
+  getGalleryImages,
+  uploadGalleryImages,
+  deleteGallery,
+};

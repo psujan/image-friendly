@@ -5,6 +5,7 @@ import {
   getGallery,
   getGalleryImages,
   uploadGalleryImages,
+  deleteGallery,
 } from "../../controllers/gallery.controller.js";
 import authenticate from "../../middleware/authenticate.middleware.js";
 import { downloadPresentation } from "../../controllers/presentation.controller.js";
@@ -21,5 +22,6 @@ galleryRouter.post(
   upload.array("images", 10),
   uploadGalleryImages
 );
+galleryRouter.delete("/gallery/:id", authenticate, deleteGallery);
 
 export default galleryRouter;
