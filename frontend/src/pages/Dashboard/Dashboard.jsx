@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Box} from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import HomeText from "../Home/partials/HomeText.jsx";
 import PageLayout from "../../components/PageLayout.jsx";
 import GalleryList from "./sections/GalleryList.jsx";

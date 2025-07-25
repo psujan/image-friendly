@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Box, Button } from "@mui/material";
 import HomeText from "../Home/partials/HomeText.jsx";
 import PageLayout from "../../components/PageLayout.jsx";
 import { useState, useRef } from "react";
+import BackButton from "../../components/common/BackButton.jsx";
+import useApiRequest from "../../utils/useApiRequest.js";
+import { useParams } from "react-router";
+import _api from "../../utils/api.js";
+import Toast from "../../utils/toast.js";
+import helper from "../../utils/helper.js";
+import DeleteGallery from "./partials/DeleteGallery.jsx";
+import { useLoader } from "../../context/loaderContext.jsx";
 
 const DraggableImageItem = ({ image, index, onReorder }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -160,15 +168,15 @@ const DraggableImageItem = ({ image, index, onReorder }) => {
           {index + 1}
         </Box>
         <img
-          src={image.src}
-          alt={image.alt}
+          src={image.imageUrl}
+          alt={image?.alt || "GAL_IMG"}
           style={{ width: "180px", height: "100px", borderRadius: "4px" }}
         />
       </Box>
       <Box sx={{ marginLeft: "14px" }}>
-        <Typography variant="body">{image.name}</Typography>
+        <Typography variant="body">{image.originalName}</Typography>
         <Typography sx={{ color: "#666", fontSize: "13px", mt: 1 }}>
-          {image.size}
+          {helper.byteToMb(image.size) + " Mb"}
         </Typography>
       </Box>
     </Box>
@@ -176,40 +184,73 @@ const DraggableImageItem = ({ image, index, onReorder }) => {
 };
 
 export default function GalleryPage() {
-  const [images, setImages] = useState([
-    {
-      id: 1,
-      src: "https://img.freepik.com/free-photo/misurina-sunset_181624-34793.jpg?t=st=1752647549~exp=1752651149~hmac=19f1674f40097c92c87f7593ca27e2e5d7eac2b1c9099d4726670b1ead5adc2f&w=1380",
-      alt: "Sunset image",
-      name: "sunset_lake.jpeg",
-      size: "4Mb",
-    },
-    {
-      id: 2,
-      src: "https://img.freepik.com/free-photo/misurina-sunset_181624-34793.jpg?t=st=1752647549~exp=1752651149~hmac=19f1674f40097c92c87f7593ca27e2e5d7eac2b1c9099d4726670b1ead5adc2f&w=1380",
-      alt: "Mountain image",
-      name: "mountain_view.jpeg",
-      size: "3.2Mb",
-    },
-    {
-      id: 3,
-      src: "https://img.freepik.com/free-photo/misurina-sunset_181624-34793.jpg?t=st=1752647549~exp=1752651149~hmac=19f1674f40097c92c87f7593ca27e2e5d7eac2b1c9099d4726670b1ead5adc2f&w=1380",
-      alt: "Nature image",
-      name: "nature_scene.jpeg",
-      size: "5.1Mb",
-    },
-  ]);
+  const { api } = useApiRequest();
+  const { id } = useParams();
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [gallery, setGallery] = useState({});
+  const [deleteModal, setDeleteModal] = useState(false);
+  const { showLoader, hideLoader } = useLoader();
+  const getGalleryImages = async () => {
+    const res = await api.get(`/api/v1/gallery/${id}/images`);
+    if (!res.success) {
+      console.error(res);
+      return;
+    }
+    setGalleryImages(res.data?.galleryImages);
+    setGallery(res.data?.gallery);
+  };
+
+  const downloadPPT = async () => {
+    try {
+      const response = await _api.post(
+        `/api/v1/ppt/${id}`,
+        {},
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", gallery.title + ".pptx" || "gallery.pptx"); // filename
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      Toast.error("Download Failed");
+      console.error("Download failed:", err);
+    }
+  };
 
   const handleReorder = (fromIndex, toIndex) => {
-    const newImages = [...images];
+    const newImages = [...galleryImages];
     const [removed] = newImages.splice(fromIndex, 1);
     newImages.splice(toIndex, 0, removed);
-    setImages(newImages);
+    setGalleryImages(newImages);
   };
+
+  const handleDelete = () => {
+    console.log("showing loader");
+    showLoader();
+    setDeleteModal(false);
+    setTimeout(() => {
+      hideLoader();
+      console.log("hiding loader");
+    }, 10000);
+  };
+
+  useEffect(() => {
+    getGalleryImages();
+  }, []);
 
   return (
     <PageLayout>
       <HomeText />
+      <BackButton />
       <Box
         sx={{
           borderRadius: "6px",
@@ -231,24 +272,31 @@ export default function GalleryPage() {
               variant="h5"
               sx={{ fontSize: "15px", fontWeight: "600" }}
             >
-              My College Gallery
+              {gallery?.title}
             </Typography>
           </Box>
           <Box>
-            <Button variant="outlined" onClick={() => {}}>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setDeleteModal(true);
+              }}
+            >
               Delete
             </Button>
           </Box>
         </Box>
         <Box sx={{ p: 1, mb: 2 }} className="gallery-container">
-          {images.map((image, index) => (
+          {galleryImages.map((image, index) => (
             <DraggableImageItem
-              key={image.id}
+              key={index}
               image={image}
               index={index}
               onReorder={handleReorder}
             />
           ))}
+
+          {galleryImages.length == 0 ? <p>No Images Found</p> : ""}
         </Box>
 
         <Box
@@ -258,11 +306,23 @@ export default function GalleryPage() {
             alignItems: "center",
           }}
         >
-          <Button variant="contained" size="large">
+          <Button
+            variant="contained"
+            size="large"
+            disabled={!galleryImages.length}
+            onClick={() => {
+              downloadPPT();
+            }}
+          >
             Generate Powerpoint
           </Button>
         </Box>
       </Box>
+      <DeleteGallery
+        open={deleteModal}
+        handleOpen={(s) => setDeleteModal(s)}
+        handleDelete={() => handleDelete()}
+      />
     </PageLayout>
   );
 }

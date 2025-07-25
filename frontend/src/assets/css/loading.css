@@ -1,0 +1,186 @@
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(18, 78, 86, 0.1);
+  width: 130px;
+  height: 130px;
+}
+
+.loading-text {
+  color: #124e56;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.8;
+  animation: textPulse 2s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Main container subtle pulse */
+.svg-container {
+  animation: containerPulse 3s ease-in-out infinite;
+  filter: drop-shadow(0 2px 8px rgba(18, 78, 86, 0.15));
+}
+
+@keyframes containerPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Improved stroke animations with staggered timing */
+.stroke-main {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: strokeDrawMain 3s ease-in-out infinite;
+}
+
+@keyframes strokeDrawMain {
+  0% {
+    stroke-dashoffset: 120;
+    opacity: 0.3;
+  }
+  25% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  65% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -120;
+    opacity: 0.3;
+  }
+}
+
+.stroke-secondary {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: strokeDrawSecondary 3s ease-in-out infinite 0.3s;
+}
+
+@keyframes strokeDrawSecondary {
+  0% {
+    stroke-dashoffset: 80;
+    opacity: 0.2;
+  }
+  30% {
+    stroke-dashoffset: 0;
+    opacity: 0.8;
+  }
+  70% {
+    stroke-dashoffset: 0;
+    opacity: 0.8;
+  }
+  100% {
+    stroke-dashoffset: -80;
+    opacity: 0.2;
+  }
+}
+
+.stroke-detail {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: strokeDrawDetail 3s ease-in-out infinite 0.6s;
+}
+
+@keyframes strokeDrawDetail {
+  0% {
+    stroke-dashoffset: 60;
+    opacity: 0.1;
+  }
+  35% {
+    stroke-dashoffset: 0;
+    opacity: 0.6;
+  }
+  75% {
+    stroke-dashoffset: 0;
+    opacity: 0.6;
+  }
+  100% {
+    stroke-dashoffset: -60;
+    opacity: 0.1;
+  }
+}
+
+/* Inner elements subtle animation */
+.inner-elements {
+  animation: innerFloat 4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes innerFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-0.5px) rotate(0.5deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(0.5px) rotate(-0.5deg);
+    opacity: 0.9;
+  }
+}
+
+/* Progress indicator dots */
+.progress-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #124e56;
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+.dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes dotPulse {
+  0%,
+  70%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

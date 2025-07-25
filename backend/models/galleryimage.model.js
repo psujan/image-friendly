@@ -5,7 +5,7 @@ const galleryImageSchema = new mongoose.Schema(
   {
     galleryId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Project",
+      ref: "Gallery", // This must match the name of your Gallery model
       required: true,
     },
     imageUrl: {
@@ -27,6 +27,17 @@ const galleryImageSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// In GalleryImage schema
+galleryImageSchema.virtual("gallery", {
+  ref: "Gallery",
+  localField: "galleryId",
+  foreignField: "_id",
+  justOne: true,
+});
+
+galleryImageSchema.set("toObject", { virtuals: true });
+galleryImageSchema.set("toJSON", { virtuals: true });
 
 const GalleryImage = mongoose.model("GalleryImage", galleryImageSchema);
 export default GalleryImage;

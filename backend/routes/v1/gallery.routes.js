@@ -13,7 +13,7 @@ const galleryRouter = Router();
 
 galleryRouter.post("/gallery", authenticate, addGallery);
 galleryRouter.get("/gallery-user/", authenticate, getGallery);
-galleryRouter.get("/ppt/:galleryId", authenticate, downloadPresentation);
+galleryRouter.post("/ppt/:galleryId", authenticate, downloadPresentation);
 galleryRouter.get("/gallery/:id/images", authenticate, getGalleryImages);
 galleryRouter.post(
   "/gallery/:id/images",

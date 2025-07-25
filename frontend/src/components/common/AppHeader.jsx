@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router";
 import AppHeaderRight from "./AppHeaderRight";
-import AppLogo from "./AppLogo";
+import AppLogo from "./AppLogo.jsx";
 
 export default function AppHeader() {
   return (

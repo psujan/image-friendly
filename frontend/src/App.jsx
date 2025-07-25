@@ -4,16 +4,19 @@ import ToastProvider from "./components/ui/ToastProvider.jsx";
 import "react-image-crop/dist/ReactCrop.css";
 import { UserProvider } from "./context/userContext.jsx";
 import RouteElements from "./router/RouteElements.jsx";
+import { LoaderProvider } from "./context/loaderContext.jsx";
 
 function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <ToastProvider>
-          <UserProvider>
-            <RouteElements />
-          </UserProvider>
-        </ToastProvider>
+        <LoaderProvider>
+          <ToastProvider>
+            <UserProvider>
+              <RouteElements />
+            </UserProvider>
+          </ToastProvider>
+        </LoaderProvider>
       </ThemeProvider>
     </>
   );

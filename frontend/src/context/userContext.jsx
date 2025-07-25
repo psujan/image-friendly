@@ -21,7 +21,7 @@ export const UserProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.setItem("token", "");
-    setUser(null)
+    setUser(null);
     navigate("/");
   };
 
@@ -39,6 +39,14 @@ export const UserProvider = ({ children }) => {
       })
       .catch((err) => {
         console.error(err);
+
+        if (err?.response?.status == "401") {
+          // Handle unauthorized access
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
+          // Redirect to login here
+          window.location.href = "/";
+        }
       });
   };
 

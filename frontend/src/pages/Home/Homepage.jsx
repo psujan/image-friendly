@@ -42,7 +42,7 @@ const homeFeatures = [
   {
     text: "Create PPT",
     icon: <SlideshowOutlinedIcon />,
-    route: "/gallery",
+    route: "/dashboard",
   },
 ];
 

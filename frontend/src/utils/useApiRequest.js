@@ -91,7 +91,14 @@ const useApiRequest = () => {
     }
   };
 
-  return { isLoading, get, post, put, _delete };
+  const api = {
+    get,
+    post,
+    put,
+    _delete,
+  };
+
+  return { isLoading, get, post, put, _delete, api };
 };
 
 export default useApiRequest;

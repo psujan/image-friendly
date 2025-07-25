@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 
 import { useForm } from "react-hook-form";
-import api from "../../../utils/api";
 import Toast from "../../../utils/toast";
 import useApiRequest from "../../../utils/useApiRequest.js";
 const style = {
@@ -24,7 +23,7 @@ const style = {
 };
 
 export default function GalleryAdd({ open, handleOpen, onAdd = () => {} }) {
-  const api = useApiRequest();
+  const { api } = useApiRequest();
   const {
     register,
     handleSubmit,

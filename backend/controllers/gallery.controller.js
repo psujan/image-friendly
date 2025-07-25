@@ -4,6 +4,7 @@ import {
   getGalleryList,
   getGalleryImagesList,
   addImagesToGallery,
+  getGalleryById,
 } from "../services/gallery.service.js";
 
 const addGallery = async (req, res, next) => {
@@ -31,10 +32,11 @@ const getGallery = async (req, res, next) => {
 
 const getGalleryImages = async (req, res, next) => {
   try {
-    const galleryList = await getGalleryImagesList(req.params.id);
+    const gallery = await getGalleryById(req.params.id);
+    const galleryImages = await getGalleryImagesList(req.params.id);
     return apiResponse.success(
       res,
-      galleryList,
+      { galleryImages, gallery },
       "Gallery Images Fetched Successfully"
     );
   } catch (err) {

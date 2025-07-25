@@ -38,7 +38,7 @@ const addImagesToGallery = async (galleryId, uploadedImages) => {
       fileName: image.filename,
       imageUrl: `${BASE_URL}/uploads/${image.filename}`,
       originalName: image.originalname,
-      size: image.size
+      size: image.size,
     }));
 
     await GalleryImage.insertMany(images, { session });
@@ -107,12 +107,14 @@ const getGalleryList = async (user) => {
 
 const getGalleryImagesList = async (id) => {
   try {
-    console.log("here", id);
-    const galleryImages = await GalleryImage.find({ galleryId: id });
-    return galleryImages;
+    return await GalleryImage.find({ galleryId: id }).populate("gallery");
   } catch (err) {
     throw err;
   }
+};
+
+const getGalleryById = async (id) => {
+  return await Gallery.findOne({ _id: id });
 };
 
 export {
@@ -120,4 +122,5 @@ export {
   addImagesToGallery,
   getGalleryList,
   getGalleryImagesList,
+  getGalleryById,
 };
