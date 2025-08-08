@@ -6,8 +6,9 @@ import ResizePage from "../pages/Resize/ResizePage.jsx";
 import CropPageNew from "../pages/Crop/CropPageNew.jsx";
 import LoginPage from "../pages/Auth/LoginPage.jsx";
 import Dashboard from "../pages/Dashboard/Dashboard.jsx";
-import GalleryPage from "../pages/Gallery/GalleryPage.jsx";
+// import GalleryPage from "../pages/Gallery/GalleryPage.jsx";
 import ProtectedUserRoute from "./partials/ProtectedUserRoute.jsx";
+import GalleryPageNew from "../pages/Gallery/GalleryPageNew.jsx";
 
 export default function RouteElements() {
   return (
@@ -30,7 +31,7 @@ export default function RouteElements() {
         path="/gallery/:id"
         element={
           <ProtectedUserRoute>
-            <GalleryPage />
+            <GalleryPageNew />
           </ProtectedUserRoute>
         }
       />

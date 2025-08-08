@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200..1000;1,200..1000&display=swap");
-@import './assets/css/loading.css';
+@import "./assets/css/loading.css";
 
 body {
   font-family: "Inter", sans-serif !important;

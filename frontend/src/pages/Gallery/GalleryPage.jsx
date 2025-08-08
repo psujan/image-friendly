@@ -206,10 +206,18 @@ export default function GalleryPage() {
   };
 
   const downloadPPT = async () => {
+    console.log(galleryImages);
+    if (!galleryImages.length) {
+      Toast.error("No Gallery Images Found");
+      return;
+    }
+    const reorderedIds = galleryImages.map((img) => img.id);
     try {
       const response = await _api.post(
         `/api/v1/ppt/${id}`,
-        {},
+        {
+          reorderedIds: reorderedIds,
+        },
         {
           responseType: "blob",
           headers: {
