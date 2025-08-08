@@ -10,6 +10,7 @@ import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined";
 
 import HomeText from "./partials/HomeText.jsx";
 import PageLayout from "../../components/PageLayout.jsx";
+import LoadingImageAnimation from "../../components/common/LoadingImageAnimation.jsx";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -49,11 +50,11 @@ const homeFeatures = [
 export default function Homepage() {
   return (
     <PageLayout>
-      <HomeText />
+      {/* <HomeText /> */}
 
       {/*App Options Card*/}
       <Box>
-        <Grid container spacing={2}>
+        {/* <Grid container spacing={2}>
           {homeFeatures.map((item, i) => (
             <Grid item xs={12} sm={6} md={4} key={i}>
               <Link to={item.route}>
@@ -101,11 +102,25 @@ export default function Homepage() {
               </Link>
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
       </Box>
 
-      {/*  Upload  */}
-      <Box
+      <Box>
+        <Box>
+          <div class="profiles-container">
+            <div class="profile-card profile-male">
+              <div class="profile-image"></div>
+            </div>
+
+            <div class="profile-card profile-female">
+              <div class="profile-image"></div>
+            </div>
+          </div>
+          <LoadingImageAnimation />
+        </Box>
+      </Box>
+
+      {/* <Box
         sx={{
           mt: 3,
           display: "flex",
@@ -128,7 +143,7 @@ export default function Homepage() {
             multiple
           />
         </Button>
-      </Box>
+      </Box> */}
     </PageLayout>
   );
 }

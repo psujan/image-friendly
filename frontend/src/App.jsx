@@ -5,15 +5,23 @@ import "react-image-crop/dist/ReactCrop.css";
 import { UserProvider } from "./context/userContext.jsx";
 import RouteElements from "./router/RouteElements.jsx";
 import { LoaderProvider } from "./context/loaderContext.jsx";
+import { useEffect } from "react";
+import store from "./utils/store.js";
+import { SidebarProvider } from "./context/sidebarContext.jsx";
 
 function App() {
+  useEffect(() => {
+    store.setSidebarState(false);
+  }, []);
   return (
     <>
       <ThemeProvider theme={theme}>
         <LoaderProvider>
           <ToastProvider>
             <UserProvider>
-              <RouteElements />
+              <SidebarProvider>
+                <RouteElements />
+              </SidebarProvider>
             </UserProvider>
           </ToastProvider>
         </LoaderProvider>

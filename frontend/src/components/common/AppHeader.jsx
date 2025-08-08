@@ -1,17 +1,14 @@
 import React from "react";
-import {
-  AppBar,
-  Typography,
-  Toolbar,
-  Box,
-  Avatar,
-  Button,
-} from "@mui/material";
+import { AppBar, Typography, Toolbar, Box, Button } from "@mui/material";
 import { Link } from "react-router";
 import AppHeaderRight from "./AppHeaderRight";
 import AppLogo from "./AppLogo.jsx";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useSidebar } from "../../context/sidebarContext.jsx";
 
 export default function AppHeader() {
+  const { toggleSidebar } = useSidebar();
+
   return (
     <AppBar
       position="static"
@@ -23,8 +20,25 @@ export default function AppHeader() {
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        {/* Left side: Brand */}
-        <AppLogo />
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            onClick={() => toggleSidebar()}
+            sx={{
+              padding: "6px",
+              borderRadius: "8px",
+              cursor: "pointer",
+              marginLeft: "-18px",
+              marginRight: "10px",
+              "&:hover": {
+                backgroundColor: "var(--primary-light-80)",
+              },
+            }}
+          >
+            <MenuIcon sx={{ color: "#666" }} />
+          </Box>
+          {/* Left side: Brand */}
+          <AppLogo />
+        </Box>
 
         {/* Center links */}
         <Box
