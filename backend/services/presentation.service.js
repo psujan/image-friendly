@@ -3,15 +3,25 @@ import pptxgen from "pptxgenjs";
 import fs from "fs";
 import path from "path";
 import GalleryImage from "../models/galleryimage.model.js";
+import mongoose from "mongoose";
 
-const generatePresentationFromGallery = async (galleryId) => {
+const generatePresentationFromGallery = async (galleryId, reorderedIds) => {
   const pptx = new pptxgen();
 
-  const images = await GalleryImage.find({ galleryId });
+  // convert string ids to object ids
+  const objectIds = reorderedIds.map((id) => new mongoose.Types.ObjectId(id));
 
-  if (!images.length) {
+  //fetch images with those ids (this will give unordered results)
+  const galImages = await GalleryImage.find({ _id: { $in: reorderedIds } });
+
+  if (!galImages.length) {
     throw new Error("No images found in this gallery");
   }
+
+  // sort images to match the order of reorderedIds
+  const images = reorderedIds.map((id) =>
+    galImages.find((img) => img._id.toString() === id)
+  );
 
   for (const img of images) {
     const imagePath = path.join(
